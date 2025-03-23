@@ -10,85 +10,371 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as LoginImport } from './routes/login'
-import { Route as IndexImport } from './routes/index'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as LoginImport } from "./routes/login";
+import { Route as AuthRouteImport } from "./routes/_auth/route";
+import { Route as IndexImport } from "./routes/index";
+import { Route as AuthTerminologiesRouteImport } from "./routes/_auth/terminologies/route";
+import { Route as AuthDashboardsRouteImport } from "./routes/_auth/dashboards/route";
+import { Route as AuthTerminologiesIndexImport } from "./routes/_auth/terminologies/index";
+import { Route as AuthDashboardsIndexImport } from "./routes/_auth/dashboards/index";
+import { Route as AuthTerminologiesConceptsIndexImport } from "./routes/_auth/terminologies/concepts.index";
+import { Route as AuthTerminologiesConceptmapsIndexImport } from "./routes/_auth/terminologies/concept_maps.index";
+import { Route as AuthTerminologiesCodesystemsIndexImport } from "./routes/_auth/terminologies/code_systems.index";
+import { Route as AuthTerminologiesConceptsIdImport } from "./routes/_auth/terminologies/concepts.$id";
+import { Route as AuthTerminologiesConceptmapsIdImport } from "./routes/_auth/terminologies/concept_maps.$id";
+import { Route as AuthTerminologiesCodesystemsIdImport } from "./routes/_auth/terminologies/code_systems.$id";
 
 // Create/Update Routes
 
 const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
+    id: "/login",
+    path: "/login",
+    getParentRoute: () => rootRoute,
+} as any);
+
+const AuthRouteRoute = AuthRouteImport.update({
+    id: "/_auth",
+    getParentRoute: () => rootRoute,
+} as any);
 
 const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
+    id: "/",
+    path: "/",
+    getParentRoute: () => rootRoute,
+} as any);
+
+const AuthTerminologiesRouteRoute = AuthTerminologiesRouteImport.update({
+    id: "/terminologies",
+    path: "/terminologies",
+    getParentRoute: () => AuthRouteRoute,
+} as any);
+
+const AuthDashboardsRouteRoute = AuthDashboardsRouteImport.update({
+    id: "/dashboards",
+    path: "/dashboards",
+    getParentRoute: () => AuthRouteRoute,
+} as any);
+
+const AuthTerminologiesIndexRoute = AuthTerminologiesIndexImport.update({
+    id: "/",
+    path: "/",
+    getParentRoute: () => AuthTerminologiesRouteRoute,
+} as any);
+
+const AuthDashboardsIndexRoute = AuthDashboardsIndexImport.update({
+    id: "/",
+    path: "/",
+    getParentRoute: () => AuthDashboardsRouteRoute,
+} as any);
+
+const AuthTerminologiesConceptsIndexRoute =
+    AuthTerminologiesConceptsIndexImport.update({
+        id: "/concepts/",
+        path: "/concepts/",
+        getParentRoute: () => AuthTerminologiesRouteRoute,
+    } as any);
+
+const AuthTerminologiesConceptmapsIndexRoute =
+    AuthTerminologiesConceptmapsIndexImport.update({
+        id: "/concept_maps/",
+        path: "/concept_maps/",
+        getParentRoute: () => AuthTerminologiesRouteRoute,
+    } as any);
+
+const AuthTerminologiesCodesystemsIndexRoute =
+    AuthTerminologiesCodesystemsIndexImport.update({
+        id: "/code_systems/",
+        path: "/code_systems/",
+        getParentRoute: () => AuthTerminologiesRouteRoute,
+    } as any);
+
+const AuthTerminologiesConceptsIdRoute =
+    AuthTerminologiesConceptsIdImport.update({
+        id: "/concepts/$id",
+        path: "/concepts/$id",
+        getParentRoute: () => AuthTerminologiesRouteRoute,
+    } as any);
+
+const AuthTerminologiesConceptmapsIdRoute =
+    AuthTerminologiesConceptmapsIdImport.update({
+        id: "/concept_maps/$id",
+        path: "/concept_maps/$id",
+        getParentRoute: () => AuthTerminologiesRouteRoute,
+    } as any);
+
+const AuthTerminologiesCodesystemsIdRoute =
+    AuthTerminologiesCodesystemsIdImport.update({
+        id: "/code_systems/$id",
+        path: "/code_systems/$id",
+        getParentRoute: () => AuthTerminologiesRouteRoute,
+    } as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
+declare module "@tanstack/react-router" {
+    interface FileRoutesByPath {
+        "/": {
+            id: "/";
+            path: "/";
+            fullPath: "/";
+            preLoaderRoute: typeof IndexImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/_auth": {
+            id: "/_auth";
+            path: "";
+            fullPath: "";
+            preLoaderRoute: typeof AuthRouteImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/login": {
+            id: "/login";
+            path: "/login";
+            fullPath: "/login";
+            preLoaderRoute: typeof LoginImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/_auth/dashboards": {
+            id: "/_auth/dashboards";
+            path: "/dashboards";
+            fullPath: "/dashboards";
+            preLoaderRoute: typeof AuthDashboardsRouteImport;
+            parentRoute: typeof AuthRouteImport;
+        };
+        "/_auth/terminologies": {
+            id: "/_auth/terminologies";
+            path: "/terminologies";
+            fullPath: "/terminologies";
+            preLoaderRoute: typeof AuthTerminologiesRouteImport;
+            parentRoute: typeof AuthRouteImport;
+        };
+        "/_auth/dashboards/": {
+            id: "/_auth/dashboards/";
+            path: "/";
+            fullPath: "/dashboards/";
+            preLoaderRoute: typeof AuthDashboardsIndexImport;
+            parentRoute: typeof AuthDashboardsRouteImport;
+        };
+        "/_auth/terminologies/": {
+            id: "/_auth/terminologies/";
+            path: "/";
+            fullPath: "/terminologies/";
+            preLoaderRoute: typeof AuthTerminologiesIndexImport;
+            parentRoute: typeof AuthTerminologiesRouteImport;
+        };
+        "/_auth/terminologies/code_systems/$id": {
+            id: "/_auth/terminologies/code_systems/$id";
+            path: "/code_systems/$id";
+            fullPath: "/terminologies/code_systems/$id";
+            preLoaderRoute: typeof AuthTerminologiesCodesystemsIdImport;
+            parentRoute: typeof AuthTerminologiesRouteImport;
+        };
+        "/_auth/terminologies/concept_maps/$id": {
+            id: "/_auth/terminologies/concept_maps/$id";
+            path: "/concept_maps/$id";
+            fullPath: "/terminologies/concept_maps/$id";
+            preLoaderRoute: typeof AuthTerminologiesConceptmapsIdImport;
+            parentRoute: typeof AuthTerminologiesRouteImport;
+        };
+        "/_auth/terminologies/concepts/$id": {
+            id: "/_auth/terminologies/concepts/$id";
+            path: "/concepts/$id";
+            fullPath: "/terminologies/concepts/$id";
+            preLoaderRoute: typeof AuthTerminologiesConceptsIdImport;
+            parentRoute: typeof AuthTerminologiesRouteImport;
+        };
+        "/_auth/terminologies/code_systems/": {
+            id: "/_auth/terminologies/code_systems/";
+            path: "/code_systems";
+            fullPath: "/terminologies/code_systems";
+            preLoaderRoute: typeof AuthTerminologiesCodesystemsIndexImport;
+            parentRoute: typeof AuthTerminologiesRouteImport;
+        };
+        "/_auth/terminologies/concept_maps/": {
+            id: "/_auth/terminologies/concept_maps/";
+            path: "/concept_maps";
+            fullPath: "/terminologies/concept_maps";
+            preLoaderRoute: typeof AuthTerminologiesConceptmapsIndexImport;
+            parentRoute: typeof AuthTerminologiesRouteImport;
+        };
+        "/_auth/terminologies/concepts/": {
+            id: "/_auth/terminologies/concepts/";
+            path: "/concepts";
+            fullPath: "/terminologies/concepts";
+            preLoaderRoute: typeof AuthTerminologiesConceptsIndexImport;
+            parentRoute: typeof AuthTerminologiesRouteImport;
+        };
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
-  }
 }
 
 // Create and export the route tree
 
+interface AuthDashboardsRouteRouteChildren {
+    AuthDashboardsIndexRoute: typeof AuthDashboardsIndexRoute;
+}
+
+const AuthDashboardsRouteRouteChildren: AuthDashboardsRouteRouteChildren = {
+    AuthDashboardsIndexRoute: AuthDashboardsIndexRoute,
+};
+
+const AuthDashboardsRouteRouteWithChildren =
+    AuthDashboardsRouteRoute._addFileChildren(AuthDashboardsRouteRouteChildren);
+
+interface AuthTerminologiesRouteRouteChildren {
+    AuthTerminologiesIndexRoute: typeof AuthTerminologiesIndexRoute;
+    AuthTerminologiesCodesystemsIdRoute: typeof AuthTerminologiesCodesystemsIdRoute;
+    AuthTerminologiesConceptmapsIdRoute: typeof AuthTerminologiesConceptmapsIdRoute;
+    AuthTerminologiesConceptsIdRoute: typeof AuthTerminologiesConceptsIdRoute;
+    AuthTerminologiesCodesystemsIndexRoute: typeof AuthTerminologiesCodesystemsIndexRoute;
+    AuthTerminologiesConceptmapsIndexRoute: typeof AuthTerminologiesConceptmapsIndexRoute;
+    AuthTerminologiesConceptsIndexRoute: typeof AuthTerminologiesConceptsIndexRoute;
+}
+
+const AuthTerminologiesRouteRouteChildren: AuthTerminologiesRouteRouteChildren =
+    {
+        AuthTerminologiesIndexRoute: AuthTerminologiesIndexRoute,
+        AuthTerminologiesCodesystemsIdRoute:
+            AuthTerminologiesCodesystemsIdRoute,
+        AuthTerminologiesConceptmapsIdRoute:
+            AuthTerminologiesConceptmapsIdRoute,
+        AuthTerminologiesConceptsIdRoute: AuthTerminologiesConceptsIdRoute,
+        AuthTerminologiesCodesystemsIndexRoute:
+            AuthTerminologiesCodesystemsIndexRoute,
+        AuthTerminologiesConceptmapsIndexRoute:
+            AuthTerminologiesConceptmapsIndexRoute,
+        AuthTerminologiesConceptsIndexRoute:
+            AuthTerminologiesConceptsIndexRoute,
+    };
+
+const AuthTerminologiesRouteRouteWithChildren =
+    AuthTerminologiesRouteRoute._addFileChildren(
+        AuthTerminologiesRouteRouteChildren,
+    );
+
+interface AuthRouteRouteChildren {
+    AuthDashboardsRouteRoute: typeof AuthDashboardsRouteRouteWithChildren;
+    AuthTerminologiesRouteRoute: typeof AuthTerminologiesRouteRouteWithChildren;
+}
+
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+    AuthDashboardsRouteRoute: AuthDashboardsRouteRouteWithChildren,
+    AuthTerminologiesRouteRoute: AuthTerminologiesRouteRouteWithChildren,
+};
+
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+    AuthRouteRouteChildren,
+);
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
+    "/": typeof IndexRoute;
+    "": typeof AuthRouteRouteWithChildren;
+    "/login": typeof LoginRoute;
+    "/dashboards": typeof AuthDashboardsRouteRouteWithChildren;
+    "/terminologies": typeof AuthTerminologiesRouteRouteWithChildren;
+    "/dashboards/": typeof AuthDashboardsIndexRoute;
+    "/terminologies/": typeof AuthTerminologiesIndexRoute;
+    "/terminologies/code_systems/$id": typeof AuthTerminologiesCodesystemsIdRoute;
+    "/terminologies/concept_maps/$id": typeof AuthTerminologiesConceptmapsIdRoute;
+    "/terminologies/concepts/$id": typeof AuthTerminologiesConceptsIdRoute;
+    "/terminologies/code_systems": typeof AuthTerminologiesCodesystemsIndexRoute;
+    "/terminologies/concept_maps": typeof AuthTerminologiesConceptmapsIndexRoute;
+    "/terminologies/concepts": typeof AuthTerminologiesConceptsIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
+    "/": typeof IndexRoute;
+    "": typeof AuthRouteRouteWithChildren;
+    "/login": typeof LoginRoute;
+    "/dashboards": typeof AuthDashboardsIndexRoute;
+    "/terminologies": typeof AuthTerminologiesIndexRoute;
+    "/terminologies/code_systems/$id": typeof AuthTerminologiesCodesystemsIdRoute;
+    "/terminologies/concept_maps/$id": typeof AuthTerminologiesConceptmapsIdRoute;
+    "/terminologies/concepts/$id": typeof AuthTerminologiesConceptsIdRoute;
+    "/terminologies/code_systems": typeof AuthTerminologiesCodesystemsIndexRoute;
+    "/terminologies/concept_maps": typeof AuthTerminologiesConceptmapsIndexRoute;
+    "/terminologies/concepts": typeof AuthTerminologiesConceptsIndexRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
+    __root__: typeof rootRoute;
+    "/": typeof IndexRoute;
+    "/_auth": typeof AuthRouteRouteWithChildren;
+    "/login": typeof LoginRoute;
+    "/_auth/dashboards": typeof AuthDashboardsRouteRouteWithChildren;
+    "/_auth/terminologies": typeof AuthTerminologiesRouteRouteWithChildren;
+    "/_auth/dashboards/": typeof AuthDashboardsIndexRoute;
+    "/_auth/terminologies/": typeof AuthTerminologiesIndexRoute;
+    "/_auth/terminologies/code_systems/$id": typeof AuthTerminologiesCodesystemsIdRoute;
+    "/_auth/terminologies/concept_maps/$id": typeof AuthTerminologiesConceptmapsIdRoute;
+    "/_auth/terminologies/concepts/$id": typeof AuthTerminologiesConceptsIdRoute;
+    "/_auth/terminologies/code_systems/": typeof AuthTerminologiesCodesystemsIndexRoute;
+    "/_auth/terminologies/concept_maps/": typeof AuthTerminologiesConceptmapsIndexRoute;
+    "/_auth/terminologies/concepts/": typeof AuthTerminologiesConceptsIndexRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login'
-  id: '__root__' | '/' | '/login'
-  fileRoutesById: FileRoutesById
+    fileRoutesByFullPath: FileRoutesByFullPath;
+    fullPaths:
+        | "/"
+        | ""
+        | "/login"
+        | "/dashboards"
+        | "/terminologies"
+        | "/dashboards/"
+        | "/terminologies/"
+        | "/terminologies/code_systems/$id"
+        | "/terminologies/concept_maps/$id"
+        | "/terminologies/concepts/$id"
+        | "/terminologies/code_systems"
+        | "/terminologies/concept_maps"
+        | "/terminologies/concepts";
+    fileRoutesByTo: FileRoutesByTo;
+    to:
+        | "/"
+        | ""
+        | "/login"
+        | "/dashboards"
+        | "/terminologies"
+        | "/terminologies/code_systems/$id"
+        | "/terminologies/concept_maps/$id"
+        | "/terminologies/concepts/$id"
+        | "/terminologies/code_systems"
+        | "/terminologies/concept_maps"
+        | "/terminologies/concepts";
+    id:
+        | "__root__"
+        | "/"
+        | "/_auth"
+        | "/login"
+        | "/_auth/dashboards"
+        | "/_auth/terminologies"
+        | "/_auth/dashboards/"
+        | "/_auth/terminologies/"
+        | "/_auth/terminologies/code_systems/$id"
+        | "/_auth/terminologies/concept_maps/$id"
+        | "/_auth/terminologies/concepts/$id"
+        | "/_auth/terminologies/code_systems/"
+        | "/_auth/terminologies/concept_maps/"
+        | "/_auth/terminologies/concepts/";
+    fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  LoginRoute: typeof LoginRoute
+    IndexRoute: typeof IndexRoute;
+    AuthRouteRoute: typeof AuthRouteRouteWithChildren;
+    LoginRoute: typeof LoginRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  LoginRoute: LoginRoute,
-}
+    IndexRoute: IndexRoute,
+    AuthRouteRoute: AuthRouteRouteWithChildren,
+    LoginRoute: LoginRoute,
+};
 
 export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+    ._addFileChildren(rootRouteChildren)
+    ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {
@@ -97,14 +383,74 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/_auth",
         "/login"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/_auth": {
+      "filePath": "_auth/route.tsx",
+      "children": [
+        "/_auth/dashboards",
+        "/_auth/terminologies"
+      ]
+    },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/_auth/dashboards": {
+      "filePath": "_auth/dashboards/route.tsx",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/dashboards/"
+      ]
+    },
+    "/_auth/terminologies": {
+      "filePath": "_auth/terminologies/route.tsx",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/terminologies/",
+        "/_auth/terminologies/code_systems/$id",
+        "/_auth/terminologies/concept_maps/$id",
+        "/_auth/terminologies/concepts/$id",
+        "/_auth/terminologies/code_systems/",
+        "/_auth/terminologies/concept_maps/",
+        "/_auth/terminologies/concepts/"
+      ]
+    },
+    "/_auth/dashboards/": {
+      "filePath": "_auth/dashboards/index.tsx",
+      "parent": "/_auth/dashboards"
+    },
+    "/_auth/terminologies/": {
+      "filePath": "_auth/terminologies/index.tsx",
+      "parent": "/_auth/terminologies"
+    },
+    "/_auth/terminologies/code_systems/$id": {
+      "filePath": "_auth/terminologies/code_systems.$id.tsx",
+      "parent": "/_auth/terminologies"
+    },
+    "/_auth/terminologies/concept_maps/$id": {
+      "filePath": "_auth/terminologies/concept_maps.$id.tsx",
+      "parent": "/_auth/terminologies"
+    },
+    "/_auth/terminologies/concepts/$id": {
+      "filePath": "_auth/terminologies/concepts.$id.tsx",
+      "parent": "/_auth/terminologies"
+    },
+    "/_auth/terminologies/code_systems/": {
+      "filePath": "_auth/terminologies/code_systems.index.tsx",
+      "parent": "/_auth/terminologies"
+    },
+    "/_auth/terminologies/concept_maps/": {
+      "filePath": "_auth/terminologies/concept_maps.index.tsx",
+      "parent": "/_auth/terminologies"
+    },
+    "/_auth/terminologies/concepts/": {
+      "filePath": "_auth/terminologies/concepts.index.tsx",
+      "parent": "/_auth/terminologies"
     }
   }
 }

@@ -10,12 +10,12 @@ import {
     useRouter,
 } from "@tanstack/react-router";
 import { z } from "zod";
-import { useSurrealDbClient } from "../contexts/SurrealProvider";
+import { useSurrealDbClient } from "@/contexts/SurrealProvider";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DB, NS, USER_ACCESS } from "../constants/db";
-import { ACCESS_TOKEN } from "../constants/storage";
+import { DB, NS, USER_ACCESS } from "@/constants/db";
+import { ACCESS_TOKEN } from "@/constants/storage";
 
 type SigninMutationProps = {
     email: string;
@@ -38,7 +38,11 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
     return (
         <>
             {field.state.meta.isTouched && field.state.meta.errors.length ? (
-                <em>{field.state.meta.errors.join(",")}</em>
+                <em>
+                    {field.state.meta.errors
+                        .map(({ message }) => message)
+                        .join(" ")}
+                </em>
             ) : null}
             {field.state.meta.isValidating ? "Validating..." : null}
         </>
@@ -107,57 +111,60 @@ function RouteComponent() {
         },
     });
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                form.handleSubmit();
-            }}
-            className="flex flex-col gap-5 w-96"
-        >
-            <form.AppField
-                name="username"
-                children={(field) => {
-                    return (
-                        <>
-                            <label htmlFor={field.name}>Username:</label>
-                            <field.Input
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                    field.handleChange(e.target.value)
-                                }
-                            />
-                            <FieldInfo field={field} />
-                        </>
-                    );
+        <div className="flex items-center justify-center h-full">
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    form.handleSubmit();
                 }}
-            />
-            <form.AppField
-                name="password"
-                children={(field) => {
-                    return (
-                        <>
-                            <label htmlFor={field.name}>Password:</label>
-                            <field.Input
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                    field.handleChange(e.target.value)
-                                }
-                            />
-                            <FieldInfo field={field} />
-                        </>
-                    );
-                }}
-            />
-            <form.AppForm>
-                <form.Button>Login</form.Button>
-            </form.AppForm>
-        </form>
+                className="flex flex-col gap-5 w-96"
+            >
+                <form.AppField
+                    name="username"
+                    children={(field) => {
+                        return (
+                            <>
+                                <label htmlFor={field.name}>Username:</label>
+                                <field.Input
+                                    id={field.name}
+                                    name={field.name}
+                                    value={field.state.value}
+                                    onBlur={field.handleBlur}
+                                    onChange={(e) =>
+                                        field.handleChange(e.target.value)
+                                    }
+                                />
+                                <FieldInfo field={field} />
+                            </>
+                        );
+                    }}
+                />
+                <form.AppField
+                    name="password"
+                    children={(field) => {
+                        return (
+                            <>
+                                <label htmlFor={field.name}>Password:</label>
+                                <field.Input
+                                    id={field.name}
+                                    name={field.name}
+                                    value={field.state.value}
+                                    onBlur={field.handleBlur}
+                                    onChange={(e) =>
+                                        field.handleChange(e.target.value)
+                                    }
+                                    type="password"
+                                />
+                                <FieldInfo field={field} />
+                            </>
+                        );
+                    }}
+                />
+                <form.AppForm>
+                    <form.Button>Login</form.Button>
+                </form.AppForm>
+            </form>
+        </div>
     );
 
     // return status === "loggedIn" ? (
